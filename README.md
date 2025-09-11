@@ -186,7 +186,6 @@ Vous avez entraîné un modèle français prédisant si un mot est un nom de per
 - Vos prediction sur le jeu de données France Inter
 - Le nom de votre modèle sur HuggingFace
 
-
 # NLP TD 3: Prompt Engineering
 
 On revient au problème d'identifier les noms de comiques dans des noms de video France Inter.
@@ -213,7 +212,7 @@ uv run python src/llm_call.py
 
 ## Etapes
 
-1. Faites une fonction video_name: str -> comic_names: list[str] qui extrait les noms de comiques d'un nom de video. <br/>
+1. Faites une fonction video_name: str -> comic_name: str qui extrait les noms de comiques d'un nom de video. <br/>
 En utilisant "structured output".<br/>
 Le résultat peut être une liste de vide.
 
