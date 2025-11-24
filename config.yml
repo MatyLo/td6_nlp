@@ -1,0 +1,3 @@
+groq_key: ${GROQ_API_KEY}
+
+mlflow_experiment: "/RAG_Movies"
