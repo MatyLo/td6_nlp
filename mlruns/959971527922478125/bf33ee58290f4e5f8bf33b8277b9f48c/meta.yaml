@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/bf33ee58290f4e5f8bf33b8277b9f48c/artifacts
+end_time: 1764003083100
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: bf33ee58290f4e5f8bf33b8277b9f48c
+run_name: brawny-shrike-883
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764003083064
+status: 3
+tags: []
+user_id: matylo

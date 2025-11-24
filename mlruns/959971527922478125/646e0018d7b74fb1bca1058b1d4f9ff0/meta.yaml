@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/646e0018d7b74fb1bca1058b1d4f9ff0/artifacts
+end_time: 1764002734452
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: 646e0018d7b74fb1bca1058b1d4f9ff0
+run_name: calm-mink-201
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764002734416
+status: 3
+tags: []
+user_id: matylo

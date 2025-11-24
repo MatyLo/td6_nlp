@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/a9dbe15b48b24bebb29afae57394ba16/artifacts
+end_time: 1764002940428
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: a9dbe15b48b24bebb29afae57394ba16
+run_name: hilarious-koi-98
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764002940389
+status: 3
+tags: []
+user_id: matylo

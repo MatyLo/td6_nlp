@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/d227846b29cf401ca86de07584c98936/artifacts
+end_time: 1764007932948
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: d227846b29cf401ca86de07584c98936
+run_name: big-fowl-818
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764007932913
+status: 3
+tags: []
+user_id: matylo

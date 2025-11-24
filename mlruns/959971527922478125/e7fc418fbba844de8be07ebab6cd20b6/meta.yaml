@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/e7fc418fbba844de8be07ebab6cd20b6/artifacts
+end_time: 1764008158831
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: e7fc418fbba844de8be07ebab6cd20b6
+run_name: bouncy-stoat-65
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764008158811
+status: 3
+tags: []
+user_id: matylo

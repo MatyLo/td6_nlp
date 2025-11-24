@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/022b4390ae5e48dfbaf213b53e97bfa5/artifacts
+end_time: 1764008842404
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: 022b4390ae5e48dfbaf213b53e97bfa5
+run_name: unequaled-shark-269
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764008842370
+status: 3
+tags: []
+user_id: matylo

@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/79a4acd0045c488f88af75b1840d3774/artifacts
+end_time: 1764009356540
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: 79a4acd0045c488f88af75b1840d3774
+run_name: fun-hawk-729
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764009356464
+status: 3
+tags: []
+user_id: matylo

@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/63c4871af41c404e91f69ce6bf0a9acc/artifacts
+end_time: 1764009047324
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: 63c4871af41c404e91f69ce6bf0a9acc
+run_name: auspicious-elk-990
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764009047301
+status: 3
+tags: []
+user_id: matylo

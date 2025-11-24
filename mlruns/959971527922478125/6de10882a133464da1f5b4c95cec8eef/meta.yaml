@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/6de10882a133464da1f5b4c95cec8eef/artifacts
+end_time: 1764006795974
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: 6de10882a133464da1f5b4c95cec8eef
+run_name: intrigued-donkey-2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764006795936
+status: 3
+tags: []
+user_id: matylo

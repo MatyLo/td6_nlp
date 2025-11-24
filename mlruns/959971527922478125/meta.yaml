@@ -1,0 +1,6 @@
+artifact_location: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125
+creation_time: 1763998053251
+experiment_id: '959971527922478125'
+last_update_time: 1763998053251
+lifecycle_stage: active
+name: RAG_Movies_clean
