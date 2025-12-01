@@ -1,0 +1,7 @@
+{
+  "model": {
+    "chunk_size": 1100,
+    "small2big": true,
+    "small2big_context": 2
+  }
+}

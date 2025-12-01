@@ -25,17 +25,48 @@ ENCODER = SentenceTransformer('all-MiniLM-L6-v2')
 
 
 def _load_ml_flow(conf):
-    mlflow.set_experiment("RAG_Movies_clean")
+    experiment_name = "RAG_Movies_2"
+    mlruns_path = os.path.join(os.getcwd(), "mlruns")
+    if not os.path.exists(mlruns_path):
+        os.makedirs(mlruns_path)
+    mlflow.set_tracking_uri(f"file://{mlruns_path}")
+    mlflow.set_experiment(experiment_name)
 
 
 _load_ml_flow(CONF)
+
+
+def _generate_run_name(config):
+    """Génère un nom descriptif pour l'expérimentation MLflow"""
+    model_config = config.get("model", {})
+    parts = []
+    
+    chunk_size = model_config.get("chunk_size", 256)
+    parts.append(f"cs{chunk_size}")
+    
+    overlap = model_config.get("overlap", 0)
+    if overlap > 0:
+        parts.append(f"ov{overlap}")
+    
+    embedding = model_config.get("embedding_model", "bge-base")
+    parts.append(f"emb_{embedding}")
+    
+    if model_config.get("small2big", False):
+        context = model_config.get("small2big_context", 1)
+        parts.append(f"s2b{context}")
+    
+    return "_".join(parts)
+
 
 def run_evaluate_retrieval(config, rag=None):
     rag = rag or models.get_model(config)
     score = evaluate_retrieval(rag, FILENAMES, DF.dropna())
 
-    description = str(config["model"])
-    _push_mlflow_result(score, config, description)
+    description = str(config.get("model", {}))
+    run_name = _generate_run_name(config)
+    _push_mlflow_result(score, config, description, run_name)
+    
+    print(f"\n📊 Résultats: MRR={score['mrr']:.4f}, nb_chunks={score['nb_chunks']}")
     
     return rag
 
@@ -45,14 +76,15 @@ def run_evaluate_reply(config, rag=None):
     indexes = range(2, len(DF), 10)
     score = evaluate_reply(rag, FILENAMES, DF.iloc[indexes])
 
-    description = str(config["model"])
-    _push_mlflow_result(score, config, description)
+    description = str(config.get("model", {}))
+    run_name = _generate_run_name(config) + "_reply"
+    _push_mlflow_result(score, config, description, run_name)
     
     return rag
 
 
-def _push_mlflow_result(score, config, description=None):
-    with mlflow.start_run(description=description):
+def _push_mlflow_result(score, config, description=None, run_name=None):
+    with mlflow.start_run(description=description, run_name=run_name):
         df = score.pop("df_result")
         mlflow.log_table(df, artifact_file="df.json")
         mlflow.log_metrics(score)
@@ -70,7 +102,6 @@ def evaluate_reply(rag, filenames, df):
     replies = []
     for question in tqdm(df["question"]):
         replies.append(rag.reply(question))
-        # Not to many requests to groq
         sleep(2)
 
     df["reply"] = replies
@@ -87,7 +118,7 @@ def evaluate_reply(rag, filenames, df):
 def evaluate_retrieval(rag, filenames, df_question):
     rag.load_files(filenames)
     ranks = []
-    for _, row  in df_question.iterrows():
+    for _, row in df_question.iterrows():
         chunks = rag._get_context(row.question)
         try:
             rank = next(i for i, c in enumerate(chunks) if row.text_answering in c)
@@ -134,35 +165,38 @@ def calc_mrr(sim_score, acceptable_chunks, top_n=5):
 
 
 def calc_semantic_similarity(generated_answer: str, reference_answer: str) -> float:
-    """
-    Calculate semantic similarity between generated and reference answers.
-    
-    Args:
-        generated_answer: The answer produced by the RAG system
-        reference_answer: The expected or ground-truth answer
-        
-    Returns:
-        Cosine similarity score between 0 and 1
-    """
-    # Generate embeddings for both texts
     embeddings = ENCODER.encode([generated_answer, reference_answer])
     generated_embedding = embeddings[0].reshape(1, -1)
     reference_embedding = embeddings[1].reshape(1, -1)
     similarity = cosine_similarity(generated_embedding, reference_embedding)[0][0]
     return float(similarity)
 
-
+   
 if __name__ == "__main__":
-    #model_config = {"chunk_size": 256} #mrr=0.19
-    #model_config = {"chunk_size": 700, "overlap": 100} #0.25
-    #model_config = {"chunk_size": 512, "overlap": 50} #pas bon 0.009
-    #model_config = {"chunk_size": 256, "overlap": 75} # 0.24
-    #model_config = {"chunk_size": 128, "overlap": 25} # 0.17
-    #model_config = {"chunk_size": 1000} #0.24
+    # --- EXPÉRIMENTATIONS CHUNK SIZE ET OVERLAP ---
+    # model_config = {"chunk_size": 256}                    # mrr=0.19
+    # model_config = {"chunk_size": 700, "overlap": 100}    # mrr=0.25, reply_sim=0.799
+    # model_config = {"chunk_size": 512, "overlap": 50}     # mrr=0.009 (pas bon)
+    # model_config = {"chunk_size": 256, "overlap": 75}     # mrr=0.24
+    # model_config = {"chunk_size": 128, "overlap": 25}     # mrr=0.17
+    # model_config = {"chunk_size": 1000}                   # mrr=0.24, reply_sim=0.747, percent_correct=0.66
+    
+    # model_config = {"chunk_size": 256, "overlap": 100}    # mrr=0.27, percent=0.66, simi=0.7161167992485894, nbchunks=500.0
+    # model_config = {"chunk_size": 700}                    # mrr=0.28, percent=0.66, simi=0.7653752565383911, nbchunks=187.0
+    # model_config = {"chunk_size": 512}                    # mrr=0.27, percent=0.88, simi=0.7998429238796234, nbchunks=220.0
 
-    #model_config = {"chunk_size": 256, "overlap": 100} #0.27 percent:0.6666666666666666 simi:0.7161167992485894 nbchunks:500.0
-    #model_config = {"chunk_size": 700} #mrr=0.28 percent:0.6666666666666666 simi:0.7653752565383911 nbchunks:187.0
-    model_config = {"chunk_size": 512} #mrr=0.27 percent:0.8888888888888888 simi:0.7998429238796234 nbchunks:220.0
-    run_evaluate_retrieval({"model": model_config})
-    run_evaluate_reply({"model": model_config})
-
+    # --- EXPÉRIMENTATIONS EMBEDDINGS
+    # model_config = {"chunk_size": 700, "embedding_model": "bge-base"}   # mrr=0.193
+    # model_config = {"chunk_size": 1100, "embedding_model": "minilm"} #mrr=0.217
+    # model_config = {"chunk_size": 700, "embedding_model": "e5-base"} # mrr=0.204
+    # model_config = {"chunk_size": 1100, "embedding_model": "gte-base"} # mrr=0.227
+    
+    # --- EXPÉRIMENTATIONS SMALL2BIG
+    # model_config = {"chunk_size": 1100, "small2big": True, "small2big_context": 1} # mrr=0.247
+    model_config = {"chunk_size": 1100, "small2big": True, "small2big_context": 2} # mrr=197
+    
+    # model_config = {"chunk_size": 700, "embedding_model": "bge-base"} # mrr=0.193
+    
+    print(f"🔬 Config: {model_config}")
+    # run_evaluate_retrieval({"model": model_config})
+    run_evaluate_reply({"model": model_config}) 
