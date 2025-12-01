@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/8408794efb32484f88e0f303b5f01852/artifacts
+end_time: 1764004949955
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: 8408794efb32484f88e0f303b5f01852
+run_name: lyrical-shark-632
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764004949926
+status: 3
+tags: []
+user_id: matylo

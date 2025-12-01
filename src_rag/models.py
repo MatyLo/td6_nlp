@@ -23,8 +23,9 @@ def get_model(config):
 
 
 class RAG:
-    def __init__(self, chunk_size=256):
+    def __init__(self, chunk_size=256, overlap=0):
         self._chunk_size = chunk_size
+        self._overlap = overlap
         self._embedder = None
         self._loaded_files = set()
         self._texts = []
@@ -66,7 +67,7 @@ class RAG:
 
     def _compute_chunks(self, texts):
         return sum(
-            (chunk_markdown(txt, chunk_size=self._chunk_size) for txt in texts),
+            (chunk_markdown(txt, chunk_size=self._chunk_size, overlap=self._overlap) for txt in texts),
             [],
         )
 
@@ -80,6 +81,7 @@ class RAG:
                 'BAAI/bge-base-en-v1.5',
                 query_instruction_for_retrieval="Represent this sentence for searching relevant passages:",
                 use_fp16=True,
+                device="cpu"
             )
 
         return self._embedder
@@ -156,16 +158,18 @@ def parse_markdown_sections(md_text: str) -> list[dict[str, str]]:
     return sections
 
 
-def chunk_markdown(md_text: str, chunk_size: int = 128) -> list[dict]:
+def chunk_markdown(md_text: str, chunk_size: int = 128, overlap: int = 0) -> list[dict]:
     parsed_sections = parse_markdown_sections(md_text)
     chunks = []
 
     for section in parsed_sections:
         tokens = tokenizer.encode(section["content"])
-        token_chunks = [tokens[i:i + chunk_size] for i in range(0, len(tokens), chunk_size) if tokens[i:i + chunk_size]]
-
-        for token_chunk in token_chunks:
-            chunk_text = tokenizer.decode(token_chunk)
-            chunks.append(chunk_text)
-
+        i = 0
+        while i < len(tokens):
+            token_chunk = tokens[i:i + chunk_size]
+            if token_chunk:
+                chunks.append(tokenizer.decode(token_chunk))
+            i += chunk_size - overlap
+            if i < 0:
+                i = 0
     return chunks

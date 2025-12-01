@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/c7b6389c117c4311be8ffa81050c0f2c/artifacts
+end_time: 1764005980279
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: c7b6389c117c4311be8ffa81050c0f2c
+run_name: burly-robin-742
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764005980246
+status: 3
+tags: []
+user_id: matylo

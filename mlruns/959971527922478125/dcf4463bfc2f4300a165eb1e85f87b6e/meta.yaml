@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/dcf4463bfc2f4300a165eb1e85f87b6e/artifacts
+end_time: 1764007549678
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: dcf4463bfc2f4300a165eb1e85f87b6e
+run_name: suave-panda-942
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764007549656
+status: 3
+tags: []
+user_id: matylo

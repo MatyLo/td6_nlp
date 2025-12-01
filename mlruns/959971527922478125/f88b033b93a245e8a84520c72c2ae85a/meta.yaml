@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/f88b033b93a245e8a84520c72c2ae85a/artifacts
+end_time: 1764005134298
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: f88b033b93a245e8a84520c72c2ae85a
+run_name: adaptable-ant-158
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764005134284
+status: 3
+tags: []
+user_id: matylo

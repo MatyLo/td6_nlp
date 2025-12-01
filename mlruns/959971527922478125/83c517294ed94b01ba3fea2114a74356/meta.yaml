@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/83c517294ed94b01ba3fea2114a74356/artifacts
+end_time: 1764004886892
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: 83c517294ed94b01ba3fea2114a74356
+run_name: stately-wolf-150
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764004886861
+status: 3
+tags: []
+user_id: matylo

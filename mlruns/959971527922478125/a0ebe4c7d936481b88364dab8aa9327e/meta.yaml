@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/a0ebe4c7d936481b88364dab8aa9327e/artifacts
+end_time: 1764000913240
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: a0ebe4c7d936481b88364dab8aa9327e
+run_name: zealous-snail-645
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764000913163
+status: 3
+tags: []
+user_id: matylo

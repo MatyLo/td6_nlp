@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/c9323e300dfc4d018b7f9f0abfc27281/artifacts
+end_time: 1764000140189
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: c9323e300dfc4d018b7f9f0abfc27281
+run_name: funny-frog-581
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764000140147
+status: 3
+tags: []
+user_id: matylo

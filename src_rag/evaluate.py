@@ -153,7 +153,16 @@ def calc_semantic_similarity(generated_answer: str, reference_answer: str) -> fl
 
 
 if __name__ == "__main__":
-    model_config = {"chunk_size": 512}
-    # run_evaluate_retrieval({"model": model_config})
+    #model_config = {"chunk_size": 256} #mrr=0.19
+    #model_config = {"chunk_size": 700, "overlap": 100} #0.25
+    #model_config = {"chunk_size": 512, "overlap": 50} #pas bon 0.009
+    #model_config = {"chunk_size": 256, "overlap": 75} # 0.24
+    #model_config = {"chunk_size": 128, "overlap": 25} # 0.17
+    #model_config = {"chunk_size": 1000} #0.24
+
+    #model_config = {"chunk_size": 256, "overlap": 100} #0.27 percent:0.6666666666666666 simi:0.7161167992485894 nbchunks:500.0
+    #model_config = {"chunk_size": 700} #mrr=0.28 percent:0.6666666666666666 simi:0.7653752565383911 nbchunks:187.0
+    model_config = {"chunk_size": 512} #mrr=0.27 percent:0.8888888888888888 simi:0.7998429238796234 nbchunks:220.0
+    run_evaluate_retrieval({"model": model_config})
     run_evaluate_reply({"model": model_config})
 

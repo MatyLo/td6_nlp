@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/5f9d0191dbcc4e92b073eb17a5c3295f/artifacts
+end_time: 1764005243165
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: 5f9d0191dbcc4e92b073eb17a5c3295f
+run_name: dapper-elk-413
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764005243149
+status: 3
+tags: []
+user_id: matylo

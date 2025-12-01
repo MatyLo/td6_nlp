@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/6d8a2af7eb7f484ebf455b2675125e41/artifacts
+end_time: 1764005182794
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: 6d8a2af7eb7f484ebf455b2675125e41
+run_name: sedate-mare-937
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764005182778
+status: 3
+tags: []
+user_id: matylo

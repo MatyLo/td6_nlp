@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/matylo/Downloads/nlp_esgi_td6/mlruns/959971527922478125/aa9b88985f01456a9f1a669583887b2b/artifacts
+end_time: 1764005012961
+entry_point_name: ''
+experiment_id: '959971527922478125'
+lifecycle_stage: active
+run_id: aa9b88985f01456a9f1a669583887b2b
+run_name: nervous-carp-242
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764005012939
+status: 3
+tags: []
+user_id: matylo
