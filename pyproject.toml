@@ -16,6 +16,9 @@ dependencies = [
     "seqeval>=1.2.2",
     "torch>=2.8.0",
     "transformers[torch]>=4.56.0",
+    "mlflow>=3.1.1",
+    "sentence-transformers>=2.2.0",
+    "tiktoken>=0.5.0",
 ]
 
 [tool.setuptools.packages.find]

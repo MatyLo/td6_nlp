@@ -1,0 +1,6 @@
+{
+  "model": {
+    "chunk_size": 1100,
+    "embedding_model": "minilm"
+  }
+}

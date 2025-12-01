@@ -5,6 +5,7 @@ import openai
 import yaml
 
 from FlagEmbedding import FlagModel
+from sentence_transformers import SentenceTransformer
 
 CONF = yaml.safe_load(open("config.yml"))
 
@@ -15,6 +16,14 @@ CLIENT = openai.OpenAI(
 
 tokenizer = tiktoken.get_encoding("cl100k_base")
 
+EMBEDDING_MODELS = {
+    "bge-base": {"type": "flag", "name": "BAAI/bge-base-en-v1.5"},
+    "minilm": {"type": "sentence_transformer", "name": "all-MiniLM-L6-v2"},
+    "e5-base": {"type": "sentence_transformer", "name": "intfloat/e5-base-v2"},
+    "gte-base": {"type": "sentence_transformer", "name": "thenlper/gte-base"},
+}
+
+
 def get_model(config):
     if config:
         return RAG(**config.get("model", {}))
@@ -23,9 +32,22 @@ def get_model(config):
 
 
 class RAG:
-    def __init__(self, chunk_size=256, overlap=0):
+    def __init__(
+        self,
+        chunk_size=256,
+        overlap=0,
+        embedding_model="bge-base",
+        top_k=5,
+        small2big=False,
+        small2big_context=1,
+    ):
         self._chunk_size = chunk_size
         self._overlap = overlap
+        self._embedding_model = embedding_model
+        self._top_k = top_k
+        self._small2big = small2big
+        self._small2big_context = small2big_context
+        
         self._embedder = None
         self._loaded_files = set()
         self._texts = []
@@ -43,9 +65,7 @@ class RAG:
                 texts.append(f.read())
                 self._loaded_files.add(filename)
 
-        
         self._texts += texts
-
         chunks_added = self._compute_chunks(texts)
         self._chunks += chunks_added
 
@@ -63,7 +83,14 @@ class RAG:
 
     def embed_questions(self, questions):
         embedder = self.get_embedder()
-        return embedder.encode(questions)
+        model_config = EMBEDDING_MODELS.get(self._embedding_model, EMBEDDING_MODELS["bge-base"])
+        
+        if model_config["type"] == "flag":
+            return embedder.encode_queries(questions)
+        else:
+            if "e5" in self._embedding_model:
+                questions = ["query: " + q for q in questions]
+            return embedder.encode(questions)
 
     def _compute_chunks(self, texts):
         return sum(
@@ -73,17 +100,29 @@ class RAG:
 
     def embed_corpus(self, chunks):
         embedder = self.get_embedder()
-        return embedder.encode(chunks)
+        model_config = EMBEDDING_MODELS.get(self._embedding_model, EMBEDDING_MODELS["bge-base"])
+        
+        if model_config["type"] == "flag":
+            return embedder.encode(chunks)
+        else:
+            if "e5" in self._embedding_model:
+                chunks = ["passage: " + c for c in chunks]
+            return embedder.encode(chunks)
 
     def get_embedder(self):
         if not self._embedder:
-            self._embedder = FlagModel(
-                'BAAI/bge-base-en-v1.5',
-                query_instruction_for_retrieval="Represent this sentence for searching relevant passages:",
-                use_fp16=True,
-                device="cpu"
-            )
-
+            model_config = EMBEDDING_MODELS.get(self._embedding_model, EMBEDDING_MODELS["bge-base"])
+            
+            if model_config["type"] == "flag":
+                self._embedder = FlagModel(
+                    model_config["name"],
+                    query_instruction_for_retrieval="Represent this sentence for searching relevant passages:",
+                    use_fp16=True,
+                    device="cpu"
+                )
+            else:
+                self._embedder = SentenceTransformer(model_config["name"])
+        
         return self._embedder
 
     def reply(self, query):
@@ -93,7 +132,6 @@ class RAG:
             model="openai/gpt-oss-20b",
         )
         return res.choices[0].message.content
-        
 
     def _build_prompt(self, query):
         context_str = "\n".join(self._get_context(query))
@@ -110,9 +148,25 @@ Answer:"""
     def _get_context(self, query):
         query_embedding = self.embed_questions([query])
         sim_scores = query_embedding @ self._corpus_embedding.T
-        indexes = list(np.argsort(sim_scores[0]))[-5:]
+        indexes = list(np.argsort(sim_scores[0]))[-self._top_k:][::-1]
+        
+        # Small2Big: étendre les chunks avec le contexte environnant
+        if self._small2big:
+            extended_chunks = []
+            for idx in indexes:
+                chunk_text = self._get_extended_chunk(idx)
+                extended_chunks.append(chunk_text)
+            return extended_chunks
+        
         return [self._chunks[i] for i in indexes]
-    
+
+    def _get_extended_chunk(self, chunk_idx):
+        """Récupère le chunk avec son contexte (small2big)"""
+        context_size = self._small2big_context
+        start_idx = max(0, chunk_idx - context_size)
+        end_idx = min(len(self._chunks), chunk_idx + context_size + 1)
+        extended_chunks = self._chunks[start_idx:end_idx]
+        return "\n".join(extended_chunks)
 
 
 def count_tokens(text: str) -> int:
@@ -120,10 +174,6 @@ def count_tokens(text: str) -> int:
 
 
 def parse_markdown_sections(md_text: str) -> list[dict[str, str]]:
-    """
-    Parses markdown into a list of {'headers': [...], 'content': ...}
-    Preserves full header hierarchy (e.g. ["Section", "Sub", "SubSub", ...])
-    """
     pattern = re.compile(r"^(#{1,6})\s*(.+)$")
     lines = md_text.splitlines()
 
@@ -137,11 +187,9 @@ def parse_markdown_sections(md_text: str) -> list[dict[str, str]]:
             level = len(match.group(1))
             title = match.group(2).strip()
 
-            # Save previous section
             if current_section["content"]:
                 sections.append(current_section)
 
-            # Adjust the header stack
             header_stack = header_stack[:level - 1]
             header_stack.append(title)
 

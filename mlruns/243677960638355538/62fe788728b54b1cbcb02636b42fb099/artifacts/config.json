@@ -1,0 +1,6 @@
+{
+  "model": {
+    "chunk_size": 700,
+    "embedding_model": "e5-base"
+  }
+}
