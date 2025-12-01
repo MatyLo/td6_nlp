@@ -171,15 +171,20 @@ def calc_semantic_similarity(generated_answer: str, reference_answer: str) -> fl
     similarity = cosine_similarity(generated_embedding, reference_embedding)[0][0]
     return float(similarity)
 
-
+   
 if __name__ == "__main__":
+    # --- EXPÉRIMENTATIONS CHUNK SIZE ET OVERLAP ---
+    # model_config = {"chunk_size": 256}                    # mrr=0.19
+    # model_config = {"chunk_size": 700, "overlap": 100}    # mrr=0.25, reply_sim=0.799
+    # model_config = {"chunk_size": 512, "overlap": 50}     # mrr=0.009 (pas bon)
+    # model_config = {"chunk_size": 256, "overlap": 75}     # mrr=0.24
+    # model_config = {"chunk_size": 128, "overlap": 25}     # mrr=0.17
+    # model_config = {"chunk_size": 1000}                   # mrr=0.24, reply_sim=0.747, percent_correct=0.66
     
-    # model_config = {"chunk_size": 256}                        # mrr=0.19 
-    # model_config = {"chunk_size": 700, "overlap": 100}        # mrr=0.25
-    # model_config = {"chunk_size": 256, "overlap": 100}        # mrr=0.27
-    # model_config = {"chunk_size": 700}                        # mrr=0.28
-    # model_config = {"chunk_size": 512}                        # mrr=0.27 reply_similarity=0.799 percent_correct=0.888
-    
+    # model_config = {"chunk_size": 256, "overlap": 100}    # mrr=0.27, percent=0.66, simi=0.7161167992485894, nbchunks=500.0
+    # model_config = {"chunk_size": 700}                    # mrr=0.28, percent=0.66, simi=0.7653752565383911, nbchunks=187.0
+    # model_config = {"chunk_size": 512}                    # mrr=0.27, percent=0.88, simi=0.7998429238796234, nbchunks=220.0
+
     # --- EXPÉRIMENTATIONS EMBEDDINGS
     # model_config = {"chunk_size": 700, "embedding_model": "bge-base"}   # mrr=0.193
     # model_config = {"chunk_size": 1100, "embedding_model": "minilm"} #mrr=0.217
