@@ -174,24 +174,24 @@ def calc_semantic_similarity(generated_answer: str, reference_answer: str) -> fl
 
 if __name__ == "__main__":
     
-    # model_config = {"chunk_size": 256}                        # mrr=0.19
+    # model_config = {"chunk_size": 256}                        # mrr=0.19 
     # model_config = {"chunk_size": 700, "overlap": 100}        # mrr=0.25
     # model_config = {"chunk_size": 256, "overlap": 100}        # mrr=0.27
     # model_config = {"chunk_size": 700}                        # mrr=0.28
-    # model_config = {"chunk_size": 512}                        # mrr=0.27
+    # model_config = {"chunk_size": 512}                        # mrr=0.27 reply_similarity=0.799 percent_correct=0.888
     
-    # --- EXPÉRIMENTATIONS EMBEDDINGS (nouvelles) ---
-    # model_config = {"chunk_size": 700, "embedding_model": "bge-base"}    # baseline
-    # model_config = {"chunk_size": 1100, "embedding_model": "minilm"}
-    # model_config = {"chunk_size": 700, "embedding_model": "e5-base"}
-    # model_config = {"chunk_size": 1100, "embedding_model": "gte-base"}
+    # --- EXPÉRIMENTATIONS EMBEDDINGS
+    # model_config = {"chunk_size": 700, "embedding_model": "bge-base"}   # mrr=0.193
+    # model_config = {"chunk_size": 1100, "embedding_model": "minilm"} #mrr=0.217
+    # model_config = {"chunk_size": 700, "embedding_model": "e5-base"} # mrr=0.204
+    # model_config = {"chunk_size": 1100, "embedding_model": "gte-base"} # mrr=0.227
     
-    # --- EXPÉRIMENTATIONS SMALL2BIG (nouvelles) ---
-    # model_config = {"chunk_size": 1100, "small2big": True, "small2big_context": 1}
-    # model_config = {"chunk_size": 1100, "small2big": True, "small2big_context": 2}
+    # --- EXPÉRIMENTATIONS SMALL2BIG
+    # model_config = {"chunk_size": 1100, "small2big": True, "small2big_context": 1} # mrr=0.247
+    model_config = {"chunk_size": 1100, "small2big": True, "small2big_context": 2} # mrr=197
     
-    # model_config = {"chunk_size": 700, "embedding_model": "bge-base"}
+    # model_config = {"chunk_size": 700, "embedding_model": "bge-base"} # mrr=0.193
     
     print(f"🔬 Config: {model_config}")
-    run_evaluate_retrieval({"model": model_config})
-    # run_evaluate_reply({"model": model_config}) 
+    # run_evaluate_retrieval({"model": model_config})
+    run_evaluate_reply({"model": model_config}) 

@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/brandontchakaniyungeko/ESGI-dev/5IABD/S1/nlp/TD/td6_nlp/mlruns/243677960638355538/43140161c9b046a7a6558c141d2c32f2/artifacts
+end_time: 1764581223350
+entry_point_name: ''
+experiment_id: '243677960638355538'
+lifecycle_stage: active
+run_id: 43140161c9b046a7a6558c141d2c32f2
+run_name: cs1100_emb_bge-base_s2b1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764581223335
+status: 3
+tags: []
+user_id: brandontchakaniyungeko
